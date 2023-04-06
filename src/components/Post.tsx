@@ -1,4 +1,3 @@
-import { User } from "@clerk/nextjs/dist/api";
 import { Post } from "@prisma/client";
 import React from "react";
 import dayjs from "dayjs";
@@ -28,21 +27,24 @@ const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
                         className="rounded-xl"
                     ></Image>
                     <div className="flex flex-col gap-2">
-                        <h1 className="font-bold">
+                        <h1 className="flex items-center gap-2 font-bold">
                             {author?.firstName != ""
                                 ? [author?.firstName, author?.lastName].join(
                                       " "
                                   )
                                 : "Anonymous"}
+                            <p className="text-sm font-extralight text-gray-500">
+                                •
+                            </p>
+                            <p className="text-sm font-extralight text-gray-500">
+                                {dayjs(post.createdAt).fromNow()}
+                            </p>
                         </h1>
                         <span className="mt-[-8px] text-xs text-gray-400">
                             {author?.id != "" ? author?.id : "user"}
                         </span>
                     </div>
                 </div>
-                <p className="text-sm font-extralight">
-                    {dayjs(post.createdAt).fromNow()}
-                </p>
             </div>
             <p>{post.content}</p>
         </div>
