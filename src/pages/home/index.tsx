@@ -9,12 +9,13 @@ import { api } from "~/utils/api";
 import { BiPaperPlane } from "react-icons/bi";
 import CreatePost from "~/components/CreatePost";
 import Post from "~/components/Post";
+import Spinner from "~/components/Spinner";
 
 const Home = () => {
     const user = useUser();
     const router = useRouter();
     const { signOut } = useClerk();
-    const { data } = api.posts.getAll.useQuery();
+    const { data, isLoading } = api.posts.getAll.useQuery();
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
 
     const handleSignOut = () => {
@@ -39,8 +40,8 @@ const Home = () => {
 
     if (!user.isLoaded) {
         return (
-            <div className="h-screen w-screen">
-                <h1>Loading</h1>
+            <div className="flex h-screen w-screen items-center justify-center">
+                <Spinner></Spinner>
             </div>
         );
     }
@@ -97,11 +98,21 @@ const Home = () => {
                     <CreatePost></CreatePost>
                 </div>
                 <div className="my-4 h-[2px] w-full bg-zinc-300"></div>
-                <div className="flex flex-col gap-4 pb-8">
-                    {data?.map(({ post, author }) => (
-                        <Post key={post.id} post={post} author={author}></Post>
-                    ))}
-                </div>
+                {isLoading ? (
+                    <div className="flex w-full justify-center">
+                        <Spinner></Spinner>
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-4 pb-8">
+                        {data?.map(({ post, author }) => (
+                            <Post
+                                key={post.id}
+                                post={post}
+                                author={author}
+                            ></Post>
+                        ))}
+                    </div>
+                )}
             </main>
         </div>
     );
