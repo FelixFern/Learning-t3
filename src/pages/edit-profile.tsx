@@ -1,7 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import LayoutContainer from "~/components/LayoutContainer";
 import { BiPencil } from "react-icons/bi";
@@ -9,9 +9,9 @@ import Spinner from "~/components/Spinner";
 
 const EditProfile = () => {
     const user = useUser();
-    const [firstName, setFirstName] = useState(user.user?.firstName ?? "");
-    const [lastName, setLastName] = useState(user.user?.lastName ?? "");
-    const [username, setUsername] = useState(user.user?.username ?? "");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [username, setUsername] = useState("");
 
     const [isEditingFN, setIsEditingFN] = useState(false);
     const [isEditingLN, setIsEditingLN] = useState(false);
@@ -29,6 +29,11 @@ const EditProfile = () => {
             });
     };
 
+    useEffect(() => {
+        setFirstName(user.user?.firstName ?? "");
+        setLastName(user.user?.lastName ?? "");
+        setUsername(user.user?.username ?? "");
+    }, [user]);
     if (!user.isLoaded) {
         return (
             <div className="flex h-screen w-screen items-center justify-center">
