@@ -18,10 +18,10 @@ const Home = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
 
     const handleSignOut = () => {
-        router.push("/").catch((err) => {
+        signOut().catch((err) => {
             console.error(err);
         });
-        signOut().catch((err) => {
+        router.push("/").catch((err) => {
             console.error(err);
         });
     };
