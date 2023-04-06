@@ -38,7 +38,7 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContainer>
-                <div className="mt-8">
+                <div className="mt-8 md:mt-0">
                     <CreatePost></CreatePost>
                 </div>
                 <div className="my-4 h-[2px] w-full bg-zinc-300"></div>
