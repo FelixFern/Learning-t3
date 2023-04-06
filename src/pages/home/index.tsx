@@ -5,10 +5,9 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
-import Post from "~/components/Post";
-import { UilMessage } from "@iconscout/react-unicons";
-import PostField from "~/components/CreatePost";
+import { BiPaperPlane } from "react-icons/bi";
 import CreatePost from "~/components/CreatePost";
+import Post from "~/components/Post";
 
 const Home = () => {
     const user = useUser();
@@ -49,14 +48,16 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="container mx-auto min-h-screen px-16">
-                <div className="flex w-full items-center justify-between py-6">
-                    <div className="flex items-center gap-2">
-                        <UilMessage></UilMessage>
+                <div className="flex w-full flex-col items-center justify-between gap-4 pt-6 md:flex-row md:py-6">
+                    <div className="flex gap-2">
+                        <div className="text-3xl">
+                            <BiPaperPlane></BiPaperPlane>
+                        </div>
                         <h1 className="text-2xl font-bold">Paperplane.</h1>
                     </div>
-                    <div className="relative flex flex-col items-end gap-2">
-                        <div className="flex items-center gap-4">
-                            <div className=" flex flex-col items-end">
+                    <div className="relative flex w-full items-start gap-2 md:w-fit md:items-end">
+                        <div className="flex flex-row-reverse items-center gap-4 md:flex-row">
+                            <div className="flex flex-col items-start md:items-end">
                                 <p className="text-md mb-[-4px]">Hello,</p>
                                 <h1 className="text-xl font-bold">
                                     {user.user?.fullName}
@@ -73,10 +74,10 @@ const Home = () => {
                             ></Image>
                         </div>
                         <div
-                            className={`absolute top-full mt-2 w-fit transition-transform duration-500 ${
+                            className={`absolute right-0 top-0 mt-2 w-fit transition-transform duration-500 md:top-full ${
                                 toggleMenu
-                                    ? "translate-x-[0]"
-                                    : "translate-x-[500%]"
+                                    ? "md:translate-x-[0]"
+                                    : "md:translate-x-[500%]"
                             }`}
                         >
                             <button
@@ -92,7 +93,7 @@ const Home = () => {
                     <CreatePost></CreatePost>
                 </div>
                 <div className="my-4 h-[2px] w-full bg-zinc-300"></div>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 pb-8">
                     {data?.map(({ post, author }) => (
                         <Post key={post.id} post={post} author={author}></Post>
                     ))}

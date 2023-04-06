@@ -26,7 +26,9 @@ const Home: NextPage = () => {
             <main className="flex h-screen w-screen items-center justify-center bg-neutral-200">
                 {user.isSignedIn ? (
                     <div>
-                        <h2>Signed In Successfully {user.user.username}</h2>
+                        <h2 className="text-xl font-bold">
+                            Signed In Successfully
+                        </h2>
                     </div>
                 ) : (
                     <SignIn></SignIn>

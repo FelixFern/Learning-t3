@@ -1,14 +1,24 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import React, { useState } from "react";
+import { api } from "~/utils/api";
 
 const CreatePost = () => {
     const { user } = useUser();
+    const ctx = api.useContext();
     const [content, setContent] = useState<string>("");
     const [showButton, setShowButton] = useState<boolean>(false);
 
+    const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+        onSuccess: () => {
+            setContent("");
+            void ctx.posts.getAll.invalidate();
+        },
+    });
+
     const handleCreatePost = (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
+        mutate({ content: content });
     };
 
     if (!user) return null;
@@ -44,9 +54,10 @@ const CreatePost = () => {
             </div>
             <button
                 type="submit"
-                className={`duration-250 text-md mt-2 w-fit rounded-md border-2 border-zinc-600 bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 ${
-                    showButton ? "" : "hidden"
+                className={`duration-250 text-md mt-2 w-fit rounded-md border-2 border-zinc-600 bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400 ${
+                    showButton || content != "" ? "" : "hidden"
                 }`}
+                disabled={isPosting}
             >
                 Post
             </button>
