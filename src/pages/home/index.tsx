@@ -18,12 +18,15 @@ const Home = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
 
     const handleSignOut = () => {
-        signOut().catch((err) => {
-            console.error(err);
-        });
-        router.push("/").catch((err) => {
-            console.error(err);
-        });
+        signOut()
+            .then(() => {
+                router.push("/").catch((err) => {
+                    console.error(err);
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     useEffect(() => {
