@@ -10,9 +10,15 @@ const Home: NextPage = () => {
     const router = useRouter();
     useEffect(() => {
         if (user.isSignedIn) {
-            router.push("/home").catch((err) => {
-                console.error(err);
-            });
+            if (user.user.username) {
+                router.push("/home").catch((err) => {
+                    console.error(err);
+                });
+            } else {
+                router.push("/edit-profile").catch((err) => {
+                    console.error(err);
+                });
+            }
         }
     }, [user]);
 

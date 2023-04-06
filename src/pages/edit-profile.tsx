@@ -20,9 +20,12 @@ const EditProfile = () => {
     const handleUpdateProfile = () => {
         user.user
             ?.update({
-                firstName: firstName,
+                // firstName: firstName,
                 // lastName: lastName,
                 username: username,
+            })
+            .then(() => {
+                alert("Update Success");
             })
             .catch((err) => {
                 console.error(err);
@@ -30,10 +33,11 @@ const EditProfile = () => {
     };
 
     useEffect(() => {
-        setFirstName(user.user?.firstName ?? "");
-        setLastName(user.user?.lastName ?? "");
-        setUsername(user.user?.username ?? "");
+        if (firstName === "") setFirstName(user.user?.firstName ?? "");
+        if (lastName === "") setLastName(user.user?.lastName ?? "");
+        if (username === "") setUsername(user.user?.username ?? "");
     }, [user]);
+
     if (!user.isLoaded) {
         return (
             <div className="flex h-screen w-screen items-center justify-center">

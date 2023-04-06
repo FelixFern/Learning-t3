@@ -5,7 +5,9 @@ import { api } from "~/utils/api";
 import { DM_Sans } from "next/font/google";
 
 import "~/styles/globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, useUser } from "@clerk/nextjs";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const dm_sans = DM_Sans({
     weight: ["400", "500", "700"],
