@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 0px;
+}
+
 body {
     @apply bg-neutral-200 overflow-x-hidden
 }
