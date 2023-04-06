@@ -40,8 +40,10 @@ const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
                                 {dayjs(post.createdAt).fromNow()}
                             </p>
                         </h1>
-                        <span className="mt-[-8px] text-xs text-gray-400">
-                            {author?.id != "" ? author?.id : "user"}
+                        <span className="text-md mt-[-12px] text-gray-400">
+                            {author?.username
+                                ? `@${author?.username}`
+                                : "@user"}
                         </span>
                     </div>
                 </div>
