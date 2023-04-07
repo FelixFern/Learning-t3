@@ -3,6 +3,7 @@ import React from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 dayjs.extend(relativeTime);
 
@@ -15,16 +16,25 @@ type Author = {
 };
 
 const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
+    const router = useRouter();
     return (
         <div className="h-fit rounded-md bg-white p-4">
             <div className="mb-2 flex items-center justify-between">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     <Image
                         src={author?.profileImageUrl ?? ""}
                         alt="profile-image"
-                        width={35}
-                        height={35}
-                        className="rounded-xl"
+                        width={40}
+                        height={40}
+                        className="duration-250 rounded-xl transition-opacity hover:opacity-75"
+                        role="button"
+                        onClick={() => {
+                            router
+                                .push(`/profile/${author?.id ?? ""}`)
+                                .catch((err) => {
+                                    console.error(err);
+                                });
+                        }}
                     ></Image>
                     <div className="flex flex-col gap-2">
                         <h1 className="flex items-center gap-2 font-bold">

@@ -1,19 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useUser } from "@clerk/nextjs";
+import { User } from "@clerk/nextjs/dist/api";
+import { clerkClient } from "@clerk/nextjs/server";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { api } from "~/utils/api";
-
-import CreatePost from "~/components/CreatePost";
+import React, { useEffect, useState } from "react";
+import LayoutContainer from "~/components/LayoutContainer";
 import Post from "~/components/Post";
 import Spinner from "~/components/Spinner";
-import LayoutContainer from "~/components/LayoutContainer";
+import { api } from "~/utils/api";
 
-const Home = () => {
+const Profile = () => {
     const user = useUser();
     const router = useRouter();
-    const { data, isLoading } = api.posts.getAllPosts.useQuery();
+    const { slug } = router.query;
+    const { data, isLoading } = api.posts.getPostById.useQuery({
+        authorId: slug?.toString() ?? "",
+    });
+    const [profile, setProfile] = useState<User>();
 
     useEffect(() => {
         if (!user.isSignedIn) {
@@ -21,6 +25,14 @@ const Home = () => {
                 console.error(err);
             });
         }
+        // clerkClient.users
+        //     .getUser(slug?.toString() ?? "")
+        //     .then((res) => {
+        //         setProfile(res);
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //     });
     }, []);
 
     if (!user.isLoaded) {
@@ -30,6 +42,7 @@ const Home = () => {
             </div>
         );
     }
+
     return (
         <>
             <Head>
@@ -38,10 +51,18 @@ const Home = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContainer>
-                <div className="mt-4 md:mt-0">
-                    <CreatePost></CreatePost>
+                <div>
+                    {/* <Image
+                        src={profile.profileImageUrl ?? ""}
+                        alt="profile-image"
+                        width={100}
+                        height={100}
+                        className="rounded-xl"
+                    ></Image> */}
+                    <div>
+                        <h1>{user?.user?.fullName}</h1>
+                    </div>
                 </div>
-                <div className="my-4 h-[2px] w-full bg-zinc-300"></div>
                 {isLoading ? (
                     <div className="flex w-full justify-center">
                         <Spinner></Spinner>
@@ -62,4 +83,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Profile;

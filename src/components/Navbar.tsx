@@ -2,7 +2,7 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { BiPaperPlane, BiPencil, BiLogOut } from "react-icons/bi";
+import { BiPaperPlane, BiPencil, BiLogOut, BiUser } from "react-icons/bi";
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
@@ -28,6 +28,9 @@ const Navbar = () => {
                 className={`${
                     toggleMenu ? "hidden md:block" : "hidden"
                 } absolute left-0 top-0 h-screen w-screen bg-white opacity-80`}
+                onClick={() => {
+                    setToggleMenu(false);
+                }}
             ></div>
             <div className="flex w-full flex-col items-center justify-between gap-4 pt-6 md:flex-row md:py-6">
                 <div
@@ -57,7 +60,7 @@ const Navbar = () => {
                             alt="profile-image"
                             width={45}
                             height={45}
-                            className="rounded-xl"
+                            className="duration-250 rounded-xl transition-opacity hover:opacity-75"
                             role="button"
                             onClick={() => setToggleMenu(!toggleMenu)}
                         ></Image>
@@ -70,6 +73,18 @@ const Navbar = () => {
                         }`}
                     >
                         {/* Desktop */}
+                        <button
+                            className="duration-250 hidden rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:block"
+                            onClick={() => {
+                                router
+                                    .push(`/profile/${user.user?.id ?? ""}`)
+                                    .catch((err) => {
+                                        console.error(err);
+                                    });
+                            }}
+                        >
+                            My Profile
+                        </button>
                         <button
                             className="duration-250 hidden rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:block"
                             onClick={() => {
@@ -88,6 +103,18 @@ const Navbar = () => {
                         </button>
 
                         {/* Mobile */}
+                        <button
+                            className="rounded-md border-2 border-zinc-900 p-2 text-xl font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:hidden"
+                            onClick={() => {
+                                router
+                                    .push(`/profile/${user.user?.id ?? ""}`)
+                                    .catch((err) => {
+                                        console.error(err);
+                                    });
+                            }}
+                        >
+                            <BiUser></BiUser>
+                        </button>
                         <button
                             className="rounded-md border-2 border-zinc-900 p-2 text-xl font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:hidden"
                             onClick={() => {
