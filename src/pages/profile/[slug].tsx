@@ -1,6 +1,4 @@
 import { useUser } from "@clerk/nextjs";
-import { User } from "@clerk/nextjs/dist/api";
-import { clerkClient } from "@clerk/nextjs/server";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -11,37 +9,12 @@ import Spinner from "~/components/Spinner";
 import { api } from "~/utils/api";
 
 const Profile = () => {
-    const user = useUser();
     const router = useRouter();
+    const user = useUser();
     const { slug } = router.query;
-    const { data, isLoading } = api.posts.getPostById.useQuery({
-        authorId: slug?.toString() ?? "",
+    const { data } = api.profile.getProfileByUsername.useQuery({
+        username: slug?.toString() ?? "",
     });
-    const [profile, setProfile] = useState<User>();
-
-    useEffect(() => {
-        if (!user.isSignedIn) {
-            router.push("/").catch((err) => {
-                console.error(err);
-            });
-        }
-        // clerkClient.users
-        //     .getUser(slug?.toString() ?? "")
-        //     .then((res) => {
-        //         setProfile(res);
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     });
-    }, []);
-
-    if (!user.isLoaded) {
-        return (
-            <div className="flex h-screen w-screen items-center justify-center">
-                <Spinner></Spinner>
-            </div>
-        );
-    }
 
     return (
         <>
@@ -51,32 +24,76 @@ const Profile = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContainer>
-                <div>
-                    {/* <Image
-                        src={profile.profileImageUrl ?? ""}
-                        alt="profile-image"
-                        width={100}
-                        height={100}
-                        className="rounded-xl"
-                    ></Image> */}
-                    <div>
-                        <h1>{user?.user?.fullName}</h1>
-                    </div>
-                </div>
-                {isLoading ? (
+                {!data ? (
                     <div className="flex w-full justify-center">
                         <Spinner></Spinner>
                     </div>
                 ) : (
-                    <div className="flex h-[62.5vh] flex-col gap-4 overflow-y-auto">
-                        {data?.map(({ post, author }) => (
-                            <Post
-                                key={post.id}
-                                post={post}
-                                author={author}
-                            ></Post>
-                        ))}
-                    </div>
+                    <>
+                        <div className="mb-4 flex items-start gap-4 border-b-2 border-zinc-300 py-4">
+                            <Image
+                                src={data.user.profileImageUrl ?? ""}
+                                alt="profile-image"
+                                width={85}
+                                height={85}
+                                className="rounded-xl"
+                            ></Image>
+                            <div>
+                                <h1 className="text-2xl font-bold">
+                                    {[
+                                        data.user.firstName,
+                                        data.user.lastName,
+                                    ].join(" ")}
+                                </h1>
+                                <h2 className="text-gray-400">
+                                    @{data.user.username}
+                                </h2>
+                                <div className="mt-2 flex gap-4">
+                                    <div className="flex gap-1">
+                                        <p className="font-bold">0</p>
+                                        <p className="font-light text-gray-700">
+                                            Origami
+                                        </p>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <p className="font-bold">0</p>
+                                        <p className="font-light text-gray-700">
+                                            Folding
+                                        </p>
+                                    </div>
+                                </div>
+                                {user.user?.username === slug ? (
+                                    <button
+                                        className="duration-250 mt-2 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
+                                        onClick={() => {
+                                            router
+                                                .push("/edit-profile")
+                                                .catch((err) => {
+                                                    console.error(err);
+                                                });
+                                        }}
+                                    >
+                                        Edit Profile
+                                    </button>
+                                ) : (
+                                    <button
+                                        className={`duration-250 text-md mt-2 w-fit rounded-md border-2 border-zinc-600 bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400`}
+                                    >
+                                        Fold
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex h-[62.5vh] flex-col gap-4 overflow-y-auto">
+                            {data.posts?.map(({ post, author }) => (
+                                <Post
+                                    key={post.id}
+                                    post={post}
+                                    author={author}
+                                ></Post>
+                            ))}
+                        </div>
+                    </>
                 )}
             </LayoutContainer>
         </>

@@ -17,3 +17,10 @@ model Post {
 
     @@index([authorId])
 }
+
+model Following {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    follower  String
+    followee  String
+}

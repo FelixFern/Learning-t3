@@ -30,7 +30,7 @@ const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
                         role="button"
                         onClick={() => {
                             router
-                                .push(`/profile/${author?.id ?? ""}`)
+                                .push(`/profile/${author?.username ?? ""}`)
                                 .catch((err) => {
                                     console.error(err);
                                 });

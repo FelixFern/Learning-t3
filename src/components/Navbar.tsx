@@ -77,7 +77,9 @@ const Navbar = () => {
                             className="duration-250 hidden rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:block"
                             onClick={() => {
                                 router
-                                    .push(`/profile/${user.user?.id ?? ""}`)
+                                    .push(
+                                        `/profile/${user.user?.username ?? ""}`
+                                    )
                                     .catch((err) => {
                                         console.error(err);
                                     });
