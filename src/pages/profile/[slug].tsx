@@ -30,7 +30,7 @@ const Profile = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="mb-4 flex items-start gap-4 border-b-2 border-zinc-300 py-4">
+                        <div className="mb-4 mt-2 flex items-start gap-4 border-b-2 border-zinc-300 py-4">
                             <Image
                                 src={data.user.profileImageUrl ?? ""}
                                 alt="profile-image"
@@ -84,7 +84,7 @@ const Profile = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex h-[62.5vh] flex-col gap-4 overflow-y-auto">
+                        <div className="flex h-[70vh] flex-col gap-4 overflow-y-auto">
                             {data.posts?.map(({ post, author }) => (
                                 <Post
                                     key={post.id}

@@ -47,7 +47,7 @@ const Home = () => {
                         <Spinner></Spinner>
                     </div>
                 ) : (
-                    <div className="flex h-[62.5vh] flex-col gap-4 overflow-y-auto md:h-[66vh]">
+                    <div className="flex h-[68vh] flex-col gap-4 overflow-y-auto md:h-[66vh]">
                         {data?.map(({ post, author }) => (
                             <Post
                                 key={post.id}
