@@ -22,5 +22,5 @@ model Following {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
     follower  String
-    followee  String
+    followed  String
 }

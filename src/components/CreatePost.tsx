@@ -1,11 +1,13 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 
 const CreatePost = () => {
     const { user } = useUser();
     const ctx = api.useContext();
+    const router = useRouter();
     const [content, setContent] = useState<string>("");
     const [showButton, setShowButton] = useState<boolean>(false);
 
@@ -35,6 +37,13 @@ const CreatePost = () => {
                     width={50}
                     height={50}
                     className="rounded-xl"
+                    onClick={() => {
+                        router
+                            .push(`/profile/${user?.username ?? ""}`)
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }}
                 ></Image>
                 <input
                     type="text"

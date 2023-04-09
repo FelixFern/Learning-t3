@@ -11,10 +11,56 @@ import { api } from "~/utils/api";
 const Profile = () => {
     const router = useRouter();
     const user = useUser();
+    const ctx = api.useContext();
     const { slug } = router.query;
-    const { data } = api.profile.getProfileByUsername.useQuery({
+    const [numOfFollower, setNumOfFollower] = useState(0);
+    const [numOfFollowing, setNumOfFollowing] = useState(0);
+
+    const [isFollowing, setIsFollowing] = useState(false);
+
+    // TRPC Query
+    const { data: profileData } = api.profile.getProfileByUsername.useQuery({
         username: slug?.toString() ?? "",
     });
+
+    const { mutate, isLoading: isTryFollowing } = api.follow.follow.useMutation(
+        {
+            onSuccess: () => {
+                void ctx.follow.getFollowerList.invalidate();
+            },
+        }
+    );
+
+    const { data: followerData } = api.follow.getFollowerList.useQuery({
+        followed: profileData?.user.id.toString() ?? "",
+    });
+
+    const { data: followingData } = api.follow.getFollowingList.useQuery({
+        follower: profileData?.user.id.toString() ?? "",
+    });
+
+    const handleFollow = () => {
+        mutate({
+            followed: profileData?.user.id.toString() ?? "",
+            follower: user.user?.id.toString() ?? "",
+        });
+        return;
+    };
+
+    useEffect(() => {
+        console.log(followerData);
+        setNumOfFollower(followerData?.length ?? 0);
+        setNumOfFollowing(followingData?.length ?? 0);
+
+        if (followerData && user.user?.id) {
+            setIsFollowing(false);
+            followerData?.map((data) => {
+                if (data?.follower === user?.user.id) setIsFollowing(true);
+                return;
+            });
+        }
+        console.log(isFollowing);
+    }, [followerData, followingData]);
 
     return (
         <>
@@ -24,7 +70,7 @@ const Profile = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContainer>
-                {!data ? (
+                {!profileData ? (
                     <div className="flex w-full justify-center">
                         <Spinner></Spinner>
                     </div>
@@ -32,7 +78,7 @@ const Profile = () => {
                     <>
                         <div className="mb-4 mt-2 flex items-start gap-4 border-b-2 border-zinc-300 py-4">
                             <Image
-                                src={data.user.profileImageUrl ?? ""}
+                                src={profileData.user.profileImageUrl ?? ""}
                                 alt="profile-image"
                                 width={85}
                                 height={85}
@@ -41,22 +87,26 @@ const Profile = () => {
                             <div>
                                 <h1 className="text-2xl font-bold">
                                     {[
-                                        data.user.firstName,
-                                        data.user.lastName,
+                                        profileData.user.firstName,
+                                        profileData.user.lastName,
                                     ].join(" ")}
                                 </h1>
                                 <h2 className="text-gray-400">
-                                    @{data.user.username}
+                                    @{profileData.user.username}
                                 </h2>
-                                <div className="mt-2 flex gap-4">
+                                <div className="mt-1 flex gap-4">
                                     <div className="flex gap-1">
-                                        <p className="font-bold">0</p>
+                                        <p className="font-bold">
+                                            {numOfFollower}
+                                        </p>
                                         <p className="font-light text-gray-700">
                                             Origami
                                         </p>
                                     </div>
                                     <div className="flex gap-1">
-                                        <p className="font-bold">0</p>
+                                        <p className="font-bold">
+                                            {numOfFollowing}
+                                        </p>
                                         <p className="font-light text-gray-700">
                                             Folding
                                         </p>
@@ -64,7 +114,7 @@ const Profile = () => {
                                 </div>
                                 {user.user?.username === slug ? (
                                     <button
-                                        className="duration-250 mt-2 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
+                                        className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
                                         onClick={() => {
                                             router
                                                 .push("/edit-profile")
@@ -75,9 +125,23 @@ const Profile = () => {
                                     >
                                         Edit Profile
                                     </button>
+                                ) : isFollowing ? (
+                                    <button
+                                        className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
+                                        onClick={() => {
+                                            handleFollow();
+                                        }}
+                                        disabled={isTryFollowing}
+                                    >
+                                        Folded
+                                    </button>
                                 ) : (
                                     <button
-                                        className={`duration-250 text-md mt-2 w-fit rounded-md border-2 border-zinc-600 bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400`}
+                                        className="duration-250 mt-1 rounded-md border-2 border-zinc-600 bg-zinc-900 px-4 py-1 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400"
+                                        onClick={() => {
+                                            handleFollow();
+                                        }}
+                                        disabled={isTryFollowing}
                                     >
                                         Fold
                                     </button>
@@ -85,7 +149,7 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className="flex h-[70vh] flex-col gap-4 overflow-y-auto">
-                            {data.posts?.map(({ post, author }) => (
+                            {profileData.posts?.map(({ post, author }) => (
                                 <Post
                                     key={post.id}
                                     post={post}
