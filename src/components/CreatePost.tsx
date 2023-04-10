@@ -27,7 +27,7 @@ const CreatePost = () => {
 
     return (
         <form
-            className="flex flex-col items-end rounded-lg bg-white p-4"
+            className="flex flex-col items-end rounded-lg border-[1px] border-zinc-200 bg-white p-4"
             onSubmit={handleCreatePost}
         >
             <div className="flex w-full items-center gap-4">
@@ -63,7 +63,7 @@ const CreatePost = () => {
             </div>
             <button
                 type="submit"
-                className={`duration-250 text-md mt-2 w-fit rounded-md border-2 border-zinc-600 bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400 ${
+                className={`duration-250 text-md mt-2 w-fit rounded-md bg-zinc-900 px-6 py-1 font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400 ${
                     showButton || content != "" ? "" : "hidden"
                 }`}
                 disabled={isPosting}

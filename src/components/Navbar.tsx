@@ -1,11 +1,12 @@
 import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiPaperPlane, BiPencil, BiLogOut, BiUser } from "react-icons/bi";
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+    const [mobileView, setMobileView] = useState<boolean>(false);
     const user = useUser();
     const { signOut } = useClerk();
     const router = useRouter();
@@ -21,6 +22,17 @@ const Navbar = () => {
                 console.error(err);
             });
     };
+
+    useEffect(() => {
+        if (window.innerWidth <= 768) {
+            setMobileView(true);
+        }
+        if (!user.isSignedIn) {
+            router.push("/").catch((err) => {
+                console.error(err);
+            });
+        }
+    }, []);
 
     return (
         <>
@@ -47,7 +59,7 @@ const Navbar = () => {
                     </div>
                     <h1 className="text-2xl font-bold">Paperplane.</h1>
                 </div>
-                {router.route.includes("profile") ? (
+                {router.route.includes("profile") && mobileView ? (
                     <></>
                 ) : (
                     <div className="relative flex w-full items-start justify-between gap-2 md:w-fit md:items-end">
@@ -105,7 +117,7 @@ const Navbar = () => {
                                 Edit Profile
                             </button>
                             <button
-                                className="duration-250 hidden rounded-md border-2 border-zinc-600 bg-zinc-900 px-4 py-1 text-sm font-medium text-white transition-colors hover:bg-zinc-700 md:block"
+                                className="duration-250 hidden rounded-md border-2 border-zinc-900 bg-zinc-900 px-4 py-1 text-sm font-medium text-white transition-colors hover:bg-zinc-700 md:block"
                                 onClick={() => handleSignOut()}
                             >
                                 Sign Out

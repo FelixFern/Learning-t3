@@ -8,6 +8,7 @@ import "~/styles/globals.css";
 import { ClerkProvider, useUser } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import LayoutContainer from "~/components/LayoutContainer";
 
 const dm_sans = DM_Sans({
     weight: ["400", "500", "700"],
@@ -22,7 +23,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     return (
         <main className={dm_sans.className}>
             <ClerkProvider {...pageProps}>
-                <Component {...pageProps} />
+                <LayoutContainer>
+                    <Component {...pageProps} />
+                </LayoutContainer>
             </ClerkProvider>
         </main>
     );
