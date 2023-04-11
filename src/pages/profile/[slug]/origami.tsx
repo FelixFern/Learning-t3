@@ -63,7 +63,7 @@ const Origami = () => {
                 slug={slug?.toString() ?? ""}
                 view="origamis"
             ></ViewSwitcher>
-            <div className="mt-2">
+            <div>
                 {followerData?.follower_list?.map((follower) => (
                     <div key={follower?.id}>
                         <UserCard userData={follower}></UserCard>

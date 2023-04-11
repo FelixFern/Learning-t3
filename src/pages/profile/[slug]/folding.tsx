@@ -65,7 +65,7 @@ const Folding = () => {
                 slug={slug?.toString() ?? ""}
                 view="foldings"
             ></ViewSwitcher>
-            <div className="mt-2">
+            <div>
                 {followingData?.following_list?.map((following) => (
                     <div key={following?.id}>
                         <UserCard userData={following}></UserCard>
