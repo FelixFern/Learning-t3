@@ -153,7 +153,7 @@ const Navbar = () => {
                                 <BiPencil></BiPencil>
                             </button>
                             <button
-                                className="rounded-md border-2 border-zinc-600 bg-zinc-900 p-2 text-xl font-medium text-white transition-colors hover:bg-zinc-700 md:block md:hidden"
+                                className="rounded-md border-2 border-zinc-600 bg-zinc-900 p-2 text-xl font-medium text-white transition-colors hover:bg-zinc-700 md:hidden"
                                 onClick={() => handleSignOut()}
                             >
                                 <BiLogOut></BiLogOut>

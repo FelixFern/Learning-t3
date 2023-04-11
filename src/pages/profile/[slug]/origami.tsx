@@ -3,8 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiArrowBack } from "react-icons/bi";
-import LayoutContainer from "~/components/LayoutContainer";
+import UserCard from "~/components/Profile/UserCard";
 import ViewSwitcher from "~/components/Profile/ViewSwitcher";
+import Spinner from "~/components/Spinner";
 import { api } from "~/utils/api";
 
 const Origami = () => {
@@ -18,6 +19,17 @@ const Origami = () => {
         username: slug?.toString() ?? "",
     });
 
+    const { data: followerData } = api.follow.getFollowerList.useQuery({
+        followed: profileData?.user.id.toString() ?? "",
+    });
+
+    if (!followerData && !profileData) {
+        return (
+            <div className="flex h-screen w-screen justify-center">
+                <Spinner></Spinner>
+            </div>
+        );
+    }
     return (
         <>
             <Head>
@@ -53,6 +65,13 @@ const Origami = () => {
                 slug={slug?.toString() ?? ""}
                 view="origamis"
             ></ViewSwitcher>
+            <div>
+                {followerData?.map((follower) => (
+                    <div key={follower?.id}>
+                        <UserCard userData={follower}></UserCard>
+                    </div>
+                ))}
+            </div>
         </>
     );
 };

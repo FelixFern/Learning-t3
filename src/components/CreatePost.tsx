@@ -36,7 +36,8 @@ const CreatePost = () => {
                     alt="profile-image"
                     width={50}
                     height={50}
-                    className="rounded-xl"
+                    role="button"
+                    className="rounded-xl transition-opacity duration-200 hover:opacity-80"
                     onClick={() => {
                         router
                             .push(`/profile/${user?.username ?? ""}`)

@@ -54,7 +54,8 @@ const Profile = () => {
         if (followerData && user.user?.id) {
             setIsFollowing(false);
             followerData?.map((data) => {
-                if (data?.follower === user?.user.id) setIsFollowing(true);
+                console.log(data?.id);
+                if (data?.id === user?.user.id) setIsFollowing(true);
                 return;
             });
         }

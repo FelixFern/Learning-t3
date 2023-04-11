@@ -1,3 +1,5 @@
+import clerkClient from "@clerk/clerk-sdk-node";
+import type { User } from "@clerk/nextjs/dist/api";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -6,6 +8,16 @@ import {
     publicProcedure,
     protectedProcedure,
 } from "~/server/api/trpc";
+
+const filterUserForClient = (user: User) => {
+    return {
+        id: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
+    };
+};
 
 export const followRouter = createTRPCRouter({
     follow: protectedProcedure
@@ -54,7 +66,8 @@ export const followRouter = createTRPCRouter({
             });
             return follow;
         }),
-    getFollowerList: protectedProcedure
+
+    getFollowerList: publicProcedure
         .input(z.object({ followed: z.string() }))
         .query(async ({ ctx, input }) => {
             if (!input.followed || input.followed === "") {
@@ -63,16 +76,31 @@ export const followRouter = createTRPCRouter({
                     message: "Follower or followed is null!",
                 });
             }
-
-            const followerList = await ctx.prisma.following.findMany({
+            const followingList = await ctx.prisma.following.findMany({
                 where: {
                     followed: input.followed,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                select: {
+                    follower: true,
+                },
             });
 
-            return followerList;
+            const user = (
+                await clerkClient.users.getUserList({
+                    limit: 100,
+                })
+            )
+                .filter((u) => {
+                    return followingList.some((val) => val.follower === u.id);
+                })
+                .map(filterUserForClient);
+
+            return user;
         }),
-    getFollowingList: protectedProcedure
+    getFollowingList: publicProcedure
         .input(z.object({ follower: z.string() }))
         .query(async ({ ctx, input }) => {
             if (!input.follower || input.follower === "") {
@@ -86,8 +114,24 @@ export const followRouter = createTRPCRouter({
                 where: {
                     follower: input.follower,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                },
+                select: {
+                    followed: true,
+                },
             });
 
-            return followingList;
+            const user = (
+                await clerkClient.users.getUserList({
+                    limit: 100,
+                })
+            )
+                .filter((u) => {
+                    return followingList.some((val) => val.followed === u.id);
+                })
+                .map(filterUserForClient);
+
+            return user;
         }),
 });

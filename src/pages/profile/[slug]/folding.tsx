@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import Spinner from "~/components/Spinner";
 import { useUser } from "@clerk/nextjs";
 import ViewSwitcher from "~/components/Profile/ViewSwitcher";
+import UserCard from "~/components/Profile/UserCard";
 
 const Folding = () => {
     const router = useRouter();
@@ -27,23 +28,11 @@ const Folding = () => {
         }
     );
 
-    const { data: followerData } = api.follow.getFollowerList.useQuery({
-        followed: profileData?.user.id.toString() ?? "",
-    });
-
     const { data: followingData } = api.follow.getFollowingList.useQuery({
         follower: profileData?.user.id.toString() ?? "",
     });
 
-    const handleFollow = () => {
-        mutate({
-            followed: profileData?.user.id.toString() ?? "",
-            follower: user.user?.id.toString() ?? "",
-        });
-        return;
-    };
-
-    if (!followingData && !followerData && !profileData) {
+    if (!followingData && !profileData) {
         return (
             <div className="flex h-screen w-screen justify-center">
                 <Spinner></Spinner>
@@ -86,6 +75,13 @@ const Folding = () => {
                 slug={slug?.toString() ?? ""}
                 view="foldings"
             ></ViewSwitcher>
+            <div>
+                {followingData?.map((following) => (
+                    <div key={following?.id}>
+                        <UserCard userData={following}></UserCard>
+                    </div>
+                ))}
+            </div>
         </>
     );
 };
