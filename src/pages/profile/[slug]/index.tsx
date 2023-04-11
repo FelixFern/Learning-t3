@@ -3,7 +3,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import LayoutContainer from "~/components/LayoutContainer";
 import Post from "~/components/Post";
 import Spinner from "~/components/Spinner";
 import { api } from "~/utils/api";
@@ -13,8 +12,6 @@ const Profile = () => {
     const user = useUser();
     const ctx = api.useContext();
     const { slug } = router.query;
-    const [numOfFollower, setNumOfFollower] = useState(0);
-    const [numOfFollowing, setNumOfFollowing] = useState(0);
 
     const [isFollowing, setIsFollowing] = useState(false);
 
@@ -48,20 +45,16 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        setNumOfFollower(followerData?.length ?? 0);
-        setNumOfFollowing(followingData?.length ?? 0);
-
         if (followerData && user.user?.id) {
             setIsFollowing(false);
-            followerData?.map((data) => {
-                console.log(data?.id);
+            followerData.follower_list?.map((data) => {
                 if (data?.id === user?.user.id) setIsFollowing(true);
                 return;
             });
         }
     }, [followerData, followingData]);
 
-    if (!followingData && !followerData && !profileData) {
+    if (!followingData || !followerData || !profileData) {
         return (
             <div className="flex h-screen w-screen justify-center">
                 <Spinner></Spinner>
@@ -120,7 +113,9 @@ const Profile = () => {
                                             .catch((err) => console.error(err));
                                     }}
                                 >
-                                    <p className="font-bold">{numOfFollower}</p>
+                                    <p className="font-bold">
+                                        {followerData?.num_of_follower ?? "..."}
+                                    </p>
                                     <p className="font-light text-gray-700">
                                         Origami
                                     </p>
@@ -139,7 +134,8 @@ const Profile = () => {
                                     }}
                                 >
                                     <p className="font-bold">
-                                        {numOfFollowing}
+                                        {followingData?.num_of_following ??
+                                            "..."}
                                     </p>
                                     <p className="font-light text-gray-700">
                                         Folding
@@ -161,7 +157,7 @@ const Profile = () => {
                                 </button>
                             ) : isFollowing ? (
                                 <button
-                                    className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
+                                    className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white disabled:border-zinc-500 disabled:bg-zinc-400"
                                     onClick={() => {
                                         handleFollow();
                                     }}

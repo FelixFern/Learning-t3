@@ -98,7 +98,10 @@ export const followRouter = createTRPCRouter({
                 })
                 .map(filterUserForClient);
 
-            return user;
+            return {
+                num_of_follower: user.length,
+                follower_list: user,
+            };
         }),
     getFollowingList: publicProcedure
         .input(z.object({ follower: z.string() }))
@@ -132,6 +135,9 @@ export const followRouter = createTRPCRouter({
                 })
                 .map(filterUserForClient);
 
-            return user;
+            return {
+                num_of_following: user.length,
+                following_list: user,
+            };
         }),
 });

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
+import Spinner from "../Spinner";
 
 type UserType = {
     id?: string;
@@ -16,10 +17,13 @@ const UserCard = ({ userData }: { userData: UserType }) => {
     const router = useRouter();
     const user = useUser();
     const ctx = api.useContext();
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [isSelf, setIsSelf] = useState(false);
 
     const { mutate, isLoading: isTryFollowing } = api.follow.follow.useMutation(
         {
             onSuccess: () => {
+                setIsFollowing(!isFollowing);
                 void ctx.follow.getFollowerList.invalidate();
             },
         }
@@ -37,18 +41,25 @@ const UserCard = ({ userData }: { userData: UserType }) => {
         return;
     };
 
-    const [isFollowing, setIsFollowing] = useState(false);
-    const [isSelf, setIsSelf] = useState(false);
-
     useEffect(() => {
         if (user.user?.id) {
             if (user.user?.id === userData.id) {
                 setIsSelf(true);
             }
         }
-        if (followingData?.some((val) => val.id === userData.id))
+        if (
+            followingData?.following_list?.some((val) => val.id === userData.id)
+        )
             return setIsFollowing(true);
     }, [user]);
+
+    if (!followingData) {
+        return (
+            <div className="flex h-screen w-screen justify-center">
+                <Spinner></Spinner>
+            </div>
+        );
+    }
 
     return (
         <div className="flex items-center gap-4 p-2">
@@ -82,7 +93,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                     <>
                         {isFollowing ? (
                             <button
-                                className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white"
+                                className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white disabled:border-zinc-500 disabled:bg-zinc-400"
                                 onClick={() => {
                                     handleFollow();
                                 }}

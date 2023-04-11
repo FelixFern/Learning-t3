@@ -11,22 +11,12 @@ import UserCard from "~/components/Profile/UserCard";
 
 const Folding = () => {
     const router = useRouter();
-    const user = useUser();
-    const ctx = api.useContext();
     const { slug } = router.query;
 
     // TRPC Query
     const { data: profileData } = api.profile.getProfileByUsername.useQuery({
         username: slug?.toString() ?? "",
     });
-
-    const { mutate, isLoading: isTryFollowing } = api.follow.follow.useMutation(
-        {
-            onSuccess: () => {
-                void ctx.follow.getFollowerList.invalidate();
-            },
-        }
-    );
 
     const { data: followingData } = api.follow.getFollowingList.useQuery({
         follower: profileData?.user.id.toString() ?? "",
@@ -75,8 +65,8 @@ const Folding = () => {
                 slug={slug?.toString() ?? ""}
                 view="foldings"
             ></ViewSwitcher>
-            <div>
-                {followingData?.map((following) => (
+            <div className="mt-2">
+                {followingData?.following_list?.map((following) => (
                     <div key={following?.id}>
                         <UserCard userData={following}></UserCard>
                     </div>

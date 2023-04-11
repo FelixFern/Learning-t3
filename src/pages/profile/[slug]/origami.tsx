@@ -10,8 +10,6 @@ import { api } from "~/utils/api";
 
 const Origami = () => {
     const router = useRouter();
-    const user = useUser();
-    const ctx = api.useContext();
     const { slug } = router.query;
 
     // TRPC Query
@@ -65,8 +63,8 @@ const Origami = () => {
                 slug={slug?.toString() ?? ""}
                 view="origamis"
             ></ViewSwitcher>
-            <div>
-                {followerData?.map((follower) => (
+            <div className="mt-2">
+                {followerData?.follower_list?.map((follower) => (
                     <div key={follower?.id}>
                         <UserCard userData={follower}></UserCard>
                     </div>
