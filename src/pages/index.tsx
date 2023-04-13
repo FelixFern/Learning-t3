@@ -8,8 +8,9 @@ import { useEffect } from "react";
 const Home: NextPage = () => {
     const user = useUser();
     const router = useRouter();
+
     useEffect(() => {
-        if (user.isSignedIn) {
+        if (user.isSignedIn && user.isLoaded) {
             if (user.user.username) {
                 router.push("/home").catch((err) => {
                     console.error(err);
@@ -20,7 +21,7 @@ const Home: NextPage = () => {
                 });
             }
         }
-    }, [user]);
+    }, []);
 
     return (
         <div className="min-h-screen w-screen">

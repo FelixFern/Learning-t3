@@ -27,11 +27,6 @@ const Navbar = () => {
         if (window.innerWidth <= 768) {
             setMobileView(true);
         }
-        if (!user.isSignedIn) {
-            router.push("/").catch((err) => {
-                console.error(err);
-            });
-        }
     }, []);
 
     return (

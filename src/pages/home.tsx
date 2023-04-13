@@ -8,7 +8,6 @@ import { api } from "~/utils/api";
 import CreatePost from "~/components/CreatePost";
 import Post from "~/components/Post";
 import Spinner from "~/components/Spinner";
-import LayoutContainer from "~/components/LayoutContainer";
 
 const Home = () => {
     const user = useUser();
@@ -16,7 +15,7 @@ const Home = () => {
     const { data, isLoading } = api.posts.getAllPosts.useQuery();
 
     useEffect(() => {
-        if (!user.isSignedIn) {
+        if (!user.isSignedIn && user) {
             router.push("/").catch((err) => {
                 console.error(err);
             });
