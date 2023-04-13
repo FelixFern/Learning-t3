@@ -21,7 +21,7 @@ const Home: NextPage = () => {
                 });
             }
         }
-    }, []);
+    }, [user]);
 
     return (
         <div className="min-h-screen w-screen">
