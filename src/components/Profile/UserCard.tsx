@@ -65,13 +65,6 @@ const UserCard = ({ userData }: { userData: UserType }) => {
         <div
             className="duration-250 flex items-center gap-4 px-8 py-4 hover:bg-zinc-100"
             role="button"
-            onClick={() => {
-                router
-                    .push(`/profile/${userData?.username ?? ""}`)
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            }}
         >
             <Image
                 src={userData?.profileImageUrl ?? ""}
@@ -79,9 +72,24 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                 width={50}
                 height={50}
                 className="rounded-xl transition-opacity "
+                onClick={() => {
+                    router
+                        .push(`/profile/${userData?.username ?? ""}`)
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                }}
             ></Image>
             <div className="flex w-full items-center justify-between">
-                <div>
+                <div
+                    onClick={() => {
+                        router
+                            .push(`/profile/${userData?.username ?? ""}`)
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }}
+                >
                     <h1 className="font-bold">
                         {[userData.firstName, userData.lastName].join(" ")}
                     </h1>

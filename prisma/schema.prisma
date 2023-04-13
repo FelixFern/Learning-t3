@@ -24,3 +24,15 @@ model Following {
     follower  String
     followed  String
 }
+
+model Likes {
+    postID    String   @id
+    createdAt DateTime @default(now())
+    userId    String
+}
+
+model Comments {
+    postID    String   @id
+    createdAt DateTime @default(now())
+    userId    String
+}
