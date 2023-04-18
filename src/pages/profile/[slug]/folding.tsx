@@ -1,11 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import LayoutContainer from "~/components/LayoutContainer";
 import { BiArrowBack } from "react-icons/bi";
 import { api } from "~/utils/api";
 import Spinner from "~/components/Spinner";
-import { useUser } from "@clerk/nextjs";
 import ViewSwitcher from "~/components/Profile/ViewSwitcher";
 import UserCard from "~/components/Profile/UserCard";
 

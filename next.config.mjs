@@ -5,7 +5,19 @@
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
 
 /** @type {import("next").NextConfig} */
-const config = {
+
+import nextPWA from "next-pwa";
+
+const withPWA = nextPWA({
+    dest: "public",
+});
+
+const config = withPWA({
+    pwa: {
+        dest: "public",
+        register: true,
+        skipWaiting: true,
+    },
     reactStrictMode: true,
 
     /**
@@ -21,5 +33,6 @@ const config = {
     images: {
         domains: ["images.clerk.dev", "lh3.googleusercontent.com"],
     },
-};
+});
+
 export default config;

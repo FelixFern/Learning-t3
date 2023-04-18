@@ -2,7 +2,14 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { BiPaperPlane, BiPencil, BiLogOut, BiUser } from "react-icons/bi";
+import {
+    BiPaperPlane,
+    BiPencil,
+    BiLogOut,
+    BiUser,
+    BiSearch,
+    BiHome,
+} from "react-icons/bi";
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
@@ -29,8 +36,73 @@ const Navbar = () => {
         }
     }, []);
 
+    if (mobileView) {
+        return (
+            <div className="w-full">
+                <header className="border-b-[1px] border-zinc-200 py-4">
+                    <div className="flex items-center justify-between gap-2">
+                        <div
+                            className="flex items-center gap-2 text-xl"
+                            role="button"
+                            onClick={() => {
+                                router.push("/home").catch((err) => {
+                                    console.error(err);
+                                });
+                            }}
+                        >
+                            <BiPaperPlane></BiPaperPlane>
+                            <h1 className="font-bold">paperplane.</h1>
+                        </div>
+                        <div className="text-xl">
+                            <BiSearch></BiSearch>
+                        </div>
+                    </div>
+                </header>
+                <nav className="fixed bottom-0 left-0 flex w-screen items-center justify-center border-t-[1px] border-zinc-200 bg-white py-2">
+                    <div className="flex w-full items-center justify-around text-2xl text-zinc-900">
+                        <div
+                            role="button"
+                            onClick={() => {
+                                router.push("/home").catch((err) => {
+                                    console.error(err);
+                                });
+                            }}
+                            className={
+                                router.route.includes("home")
+                                    ? "rounded-xl bg-zinc-900 p-[8px] text-white"
+                                    : ""
+                            }
+                        >
+                            <BiHome></BiHome>
+                        </div>
+                        <div role="button" onClick={() => handleSignOut()}>
+                            <BiLogOut></BiLogOut>
+                        </div>
+                        <Image
+                            src={user.user?.profileImageUrl ?? ""}
+                            alt="profile-image"
+                            width={35}
+                            height={35}
+                            className="duration-250 rounded-full border-2 border-zinc-900 transition-opacity hover:opacity-75"
+                            role="button"
+                            onClick={() => {
+                                router
+                                    .push(
+                                        `/profile/${user.user?.username ?? ""}`
+                                    )
+                                    .catch((err) => {
+                                        console.error(err);
+                                    });
+                            }}
+                        ></Image>
+                    </div>
+                </nav>
+            </div>
+        );
+    }
+
     return (
-        <>
+        <header>
             <div
                 className={`${
                     toggleMenu ? "hidden md:block" : "hidden"
@@ -41,7 +113,7 @@ const Navbar = () => {
             ></div>
             <div className="flex w-full flex-col justify-between gap-4 pt-6 md:flex-row md:items-center md:py-6">
                 <div
-                    className="flex gap-2"
+                    className="flex items-center gap-2"
                     role="button"
                     onClick={() => {
                         router.push("/home").catch((err) => {
@@ -54,7 +126,7 @@ const Navbar = () => {
                     </div>
                     <h1 className="text-2xl font-bold">Paperplane.</h1>
                 </div>
-                {router.route.includes("profile") && mobileView ? (
+                {router.route.includes("profile") ? (
                     <></>
                 ) : (
                     <div className="relative flex w-full items-start justify-between gap-2 md:w-fit md:items-end">
@@ -117,47 +189,11 @@ const Navbar = () => {
                             >
                                 Sign Out
                             </button>
-
-                            {/* Mobile */}
-                            <button
-                                className="rounded-md border-2 border-zinc-900 p-2 text-xl font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:hidden"
-                                onClick={() => {
-                                    router
-                                        .push(
-                                            `/profile/${
-                                                user.user?.username ?? ""
-                                            }`
-                                        )
-                                        .catch((err) => {
-                                            console.error(err);
-                                        });
-                                }}
-                            >
-                                <BiUser></BiUser>
-                            </button>
-                            <button
-                                className="rounded-md border-2 border-zinc-900 p-2 text-xl font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:hidden"
-                                onClick={() => {
-                                    router
-                                        .push("/edit-profile")
-                                        .catch((err) => {
-                                            console.error(err);
-                                        });
-                                }}
-                            >
-                                <BiPencil></BiPencil>
-                            </button>
-                            <button
-                                className="rounded-md border-2 border-zinc-600 bg-zinc-900 p-2 text-xl font-medium text-white transition-colors hover:bg-zinc-700 md:hidden"
-                                onClick={() => handleSignOut()}
-                            >
-                                <BiLogOut></BiLogOut>
-                            </button>
                         </div>
                     </div>
                 )}
             </div>
-        </>
+        </header>
     );
 };
 

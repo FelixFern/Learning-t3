@@ -1,4 +1,3 @@
-import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";

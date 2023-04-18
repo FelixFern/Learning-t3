@@ -18,7 +18,7 @@ type Author = {
 const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
     const router = useRouter();
     return (
-        <div className="h-fit rounded-md border-[1px] border-zinc-200 bg-white p-4">
+        <div className="h-fit rounded-md border-[0.25px] border-zinc-200 bg-white p-4">
             <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Image

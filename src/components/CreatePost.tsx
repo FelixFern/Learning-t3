@@ -27,15 +27,15 @@ const CreatePost = () => {
 
     return (
         <form
-            className="flex flex-col items-end rounded-lg border-[1px] border-zinc-200 bg-white p-4"
+            className="flex flex-col items-end rounded-lg border-[0.25px] border-zinc-200 bg-white px-4 py-2"
             onSubmit={handleCreatePost}
         >
             <div className="flex w-full items-center gap-4">
                 <Image
                     src={user?.profileImageUrl ?? ""}
                     alt="profile-image"
-                    width={50}
-                    height={50}
+                    width={45}
+                    height={45}
                     role="button"
                     className="rounded-xl transition-opacity duration-200 hover:opacity-80"
                     onClick={() => {
@@ -49,7 +49,7 @@ const CreatePost = () => {
                 <input
                     type="text"
                     placeholder="What facts do you have today?"
-                    className="h-[50px] w-full grow outline-none"
+                    className="h-[50px] w-full grow bg-transparent outline-none"
                     onFocus={() => {
                         setShowButton(true);
                     }}

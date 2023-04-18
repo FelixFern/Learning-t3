@@ -5,9 +5,7 @@ import { api } from "~/utils/api";
 import { DM_Sans } from "next/font/google";
 
 import "~/styles/globals.css";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { ClerkProvider } from "@clerk/nextjs";
 import LayoutContainer from "~/components/LayoutContainer";
 
 const dm_sans = DM_Sans({
