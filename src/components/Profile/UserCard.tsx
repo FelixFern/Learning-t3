@@ -42,20 +42,20 @@ const UserCard = ({ userData }: { userData: UserType }) => {
     };
 
     useEffect(() => {
-        if (user.user?.id) {
-            if (user.user?.id === userData.id) {
-                setIsSelf(true);
-            }
+        if (user.user?.id === userData.id) {
+            setIsSelf(true);
         }
         if (
-            followingData?.following_list?.some((val) => val.id === userData.id)
+            followingData?.following_list?.some(
+                (val: UserType) => val.id === userData.id
+            )
         )
             return setIsFollowing(true);
     }, [user]);
 
     if (!followingData) {
         return (
-            <div className="flex h-screen w-screen justify-center">
+            <div className="flex justify-center w-screen h-screen">
                 <Spinner></Spinner>
             </div>
         );
@@ -63,7 +63,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
 
     return (
         <div
-            className="duration-250 flex items-center gap-4 px-8 py-4 hover:bg-zinc-100"
+            className="flex items-center gap-4 px-8 py-4 duration-250 hover:bg-zinc-100"
             role="button"
         >
             <Image
@@ -71,7 +71,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                 alt="profile-image"
                 width={50}
                 height={50}
-                className="rounded-xl transition-opacity "
+                className="transition-opacity rounded-xl "
                 onClick={() => {
                     router
                         .push(`/profile/${userData?.username ?? ""}`)
@@ -80,7 +80,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                         });
                 }}
             ></Image>
-            <div className="flex w-full items-center justify-between">
+            <div className="flex items-center justify-between w-full">
                 <div
                     onClick={() => {
                         router
@@ -103,7 +103,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                     <>
                         {isFollowing ? (
                             <button
-                                className="duration-250 mt-1 rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white disabled:border-zinc-500 disabled:bg-zinc-400"
+                                className="px-4 py-1 mt-1 text-sm font-medium text-black transition-colors border-2 rounded-md duration-250 border-zinc-900 hover:bg-zinc-700 hover:text-white disabled:border-zinc-500 disabled:bg-zinc-400"
                                 onClick={() => {
                                     handleFollow();
                                 }}
@@ -113,7 +113,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                             </button>
                         ) : (
                             <button
-                                className="duration-250 mt-1 rounded-md border-2 border-zinc-600 bg-zinc-900 px-4 py-1 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400"
+                                className="px-4 py-1 mt-1 text-sm font-medium text-white transition-colors border-2 rounded-md duration-250 border-zinc-600 bg-zinc-900 hover:bg-zinc-700 disabled:border-zinc-500 disabled:bg-zinc-400"
                                 onClick={() => {
                                     handleFollow();
                                 }}
