@@ -60,7 +60,7 @@ const Navbar = () => {
                     </div>
                 </header>
                 <nav className="fixed bottom-0 left-0 flex w-screen items-center justify-center border-t-[1px] border-zinc-200 bg-white py-2">
-                    <div className="flex w-full items-center justify-around text-2xl text-zinc-900">
+                    <div className="flex items-center justify-around w-full text-2xl text-zinc-900">
                         <div
                             role="button"
                             onClick={() => {
@@ -84,7 +84,7 @@ const Navbar = () => {
                             alt="profile-image"
                             width={35}
                             height={35}
-                            className="duration-250 rounded-full border-2 border-zinc-900 transition-opacity hover:opacity-75"
+                            className="transition-opacity border-2 rounded-full duration-250 border-zinc-900 hover:opacity-75"
                             role="button"
                             onClick={() => {
                                 router
@@ -112,7 +112,7 @@ const Navbar = () => {
                     setToggleMenu(false);
                 }}
             ></div>
-            <div className="flex w-full flex-col justify-between gap-4 pt-6 md:flex-row md:items-center md:py-6">
+            <div className="flex flex-col justify-between w-full gap-4 pt-6 md:flex-row md:items-center md:py-6">
                 <div
                     className="flex items-center gap-2"
                     role="button"
@@ -130,7 +130,11 @@ const Navbar = () => {
                 {router.route.includes("profile") ? (
                     <></>
                 ) : (
-                    <div className="flex w-full items-start justify-between gap-2 md:w-fit md:items-end">
+                    <div
+                        className={`flex items-start justify-between w-full gap-2 md:w-fit md:items-end ${
+                            toggleMenu ? "relative" : ""
+                        }`}
+                    >
                         <div className="z-50 flex flex-row-reverse items-center gap-4 md:flex-row">
                             <div className="flex flex-col items-start md:items-end">
                                 <p className="text-md mb-[-4px]">Hello,</p>
@@ -143,7 +147,7 @@ const Navbar = () => {
                                 alt="profile-image"
                                 width={45}
                                 height={45}
-                                className="duration-250 rounded-xl transition-opacity hover:opacity-75"
+                                className="transition-opacity duration-250 rounded-xl hover:opacity-75"
                                 role="button"
                                 onClick={() => setToggleMenu(!toggleMenu)}
                             ></Image>
@@ -158,7 +162,7 @@ const Navbar = () => {
                         >
                             {/* Desktop */}
                             <button
-                                className="duration-250 hidden rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:block"
+                                className="hidden px-4 py-1 text-sm font-medium text-black transition-colors border-2 rounded-md duration-250 border-zinc-900 hover:bg-zinc-700 hover:text-white md:block"
                                 onClick={() => {
                                     router
                                         .push(
@@ -174,7 +178,7 @@ const Navbar = () => {
                                 My Profile
                             </button>
                             <button
-                                className="duration-250 hidden rounded-md border-2 border-zinc-900 px-4 py-1 text-sm font-medium text-black transition-colors hover:bg-zinc-700 hover:text-white md:block"
+                                className="hidden px-4 py-1 text-sm font-medium text-black transition-colors border-2 rounded-md duration-250 border-zinc-900 hover:bg-zinc-700 hover:text-white md:block"
                                 onClick={() => {
                                     router
                                         .push("/edit-profile")
@@ -186,7 +190,7 @@ const Navbar = () => {
                                 Edit Profile
                             </button>
                             <button
-                                className="duration-250 hidden rounded-md border-2 border-zinc-900 bg-zinc-900 px-4 py-1 text-sm font-medium text-white transition-colors hover:bg-zinc-700 md:block"
+                                className="hidden px-4 py-1 text-sm font-medium text-white transition-colors border-2 rounded-md duration-250 border-zinc-900 bg-zinc-900 hover:bg-zinc-700 md:block"
                                 onClick={() => handleSignOut()}
                             >
                                 Sign Out
