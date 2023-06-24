@@ -10,6 +10,7 @@ import {
     BiSearch,
     BiHome,
 } from "react-icons/bi";
+import UserSearchBar from "./UserSearchBar/UserSearchBar";
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);
@@ -54,7 +55,7 @@ const Navbar = () => {
                             <h1 className="font-bold">paperplane.</h1>
                         </div>
                         <div className="text-xl">
-                            <BiSearch></BiSearch>
+                            <UserSearchBar></UserSearchBar>
                         </div>
                     </div>
                 </header>
@@ -129,7 +130,7 @@ const Navbar = () => {
                 {router.route.includes("profile") ? (
                     <></>
                 ) : (
-                    <div className="relative flex w-full items-start justify-between gap-2 md:w-fit md:items-end">
+                    <div className="flex w-full items-start justify-between gap-2 md:w-fit md:items-end">
                         <div className="z-50 flex flex-row-reverse items-center gap-4 md:flex-row">
                             <div className="flex flex-col items-start md:items-end">
                                 <p className="text-md mb-[-4px]">Hello,</p>
@@ -146,6 +147,7 @@ const Navbar = () => {
                                 role="button"
                                 onClick={() => setToggleMenu(!toggleMenu)}
                             ></Image>
+                            <UserSearchBar></UserSearchBar>
                         </div>
                         <div
                             className={`right-0 top-0 mt-1 flex w-fit items-center justify-between gap-2 transition-transform duration-500 md:absolute md:top-full md:mt-4 md:flex-col md:items-end ${

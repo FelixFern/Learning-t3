@@ -19,14 +19,14 @@ const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
     const router = useRouter();
     return (
         <div className="h-fit rounded-md border-[0.25px] border-zinc-200 bg-white p-4">
-            <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
                     <Image
                         src={author?.profileImageUrl ?? ""}
                         alt="profile-image"
                         width={40}
                         height={40}
-                        className="duration-250 rounded-xl transition-opacity hover:opacity-75"
+                        className="transition-opacity duration-250 rounded-xl hover:opacity-75"
                         role="button"
                         onClick={() => {
                             router
@@ -43,10 +43,10 @@ const Post = ({ post, author }: { post: Post; author: Author | undefined }) => {
                                       " "
                                   )
                                 : "Anonymous"}
-                            <p className="text-sm font-extralight text-gray-500">
+                            <p className="text-sm text-gray-500 font-extralight">
                                 •
                             </p>
-                            <p className="text-sm font-extralight text-gray-500">
+                            <p className="text-sm text-gray-500 font-extralight">
                                 {dayjs(post.createdAt).fromNow()}
                             </p>
                         </h1>
