@@ -11,7 +11,6 @@ const Folding = () => {
     const router = useRouter();
     const { slug } = router.query;
 
-    // TRPC Query
     const { data: profileData } = api.profile.getProfileByUsername.useQuery({
         username: slug?.toString() ?? "",
     });

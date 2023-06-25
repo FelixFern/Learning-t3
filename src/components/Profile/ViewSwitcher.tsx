@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 
 const ViewSwitcher = ({ slug, view }: { slug: string; view: string }) => {
     const router = useRouter();

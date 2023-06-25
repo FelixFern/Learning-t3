@@ -51,7 +51,7 @@ const UserCard = ({ userData }: { userData: UserType }) => {
             )
         )
             return setIsFollowing(true);
-    }, [user]);
+    }, [followingData?.following_list, user, userData.id]);
 
     if (!followingData) {
         return (
@@ -65,6 +65,13 @@ const UserCard = ({ userData }: { userData: UserType }) => {
         <div
             className="flex items-center gap-4 px-8 py-4 duration-250 hover:bg-zinc-100"
             role="button"
+            onClick={() => {
+                router
+                    .push(`/profile/${userData?.username ?? ""}`)
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            }}
         >
             <Image
                 src={userData?.profileImageUrl ?? ""}
@@ -72,24 +79,9 @@ const UserCard = ({ userData }: { userData: UserType }) => {
                 width={50}
                 height={50}
                 className="transition-opacity rounded-xl "
-                onClick={() => {
-                    router
-                        .push(`/profile/${userData?.username ?? ""}`)
-                        .catch((err) => {
-                            console.error(err);
-                        });
-                }}
             ></Image>
             <div className="flex items-center justify-between w-full">
-                <div
-                    onClick={() => {
-                        router
-                            .push(`/profile/${userData?.username ?? ""}`)
-                            .catch((err) => {
-                                console.error(err);
-                            });
-                    }}
-                >
+                <div>
                     <h1 className="font-bold">
                         {[userData.firstName, userData.lastName].join(" ")}
                     </h1>

@@ -2,10 +2,12 @@ import React from "react";
 import { BiSearch } from "react-icons/bi";
 import Image from "next/image";
 import { useUserSearchBar } from "./useUserSearchBar";
+import { useRouter } from "next/router";
 
 const UserSearchBar = () => {
     const { userList, search, setSearch, isSearching, setIsSearching } =
         useUserSearchBar();
+    const router = useRouter();
 
     return (
         <div>
@@ -49,6 +51,16 @@ const UserSearchBar = () => {
                             <div
                                 key={user.id}
                                 className="h-fit gap-3 border-[0.25px] border-zinc-200 bg-white p-4 w-full flex items-center hover:opacity-75"
+                                role="button"
+                                onClick={() => {
+                                    router
+                                        .push(
+                                            `/profile/${user?.username ?? ""}`
+                                        )
+                                        .catch((err) => {
+                                            console.error(err);
+                                        });
+                                }}
                             >
                                 <Image
                                     src={user?.profileImageUrl ?? ""}

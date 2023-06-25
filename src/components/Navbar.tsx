@@ -2,14 +2,7 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import {
-    BiPaperPlane,
-    BiPencil,
-    BiLogOut,
-    BiUser,
-    BiSearch,
-    BiHome,
-} from "react-icons/bi";
+import { BiPaperPlane, BiLogOut, BiHome } from "react-icons/bi";
 import UserSearchBar from "./UserSearchBar/UserSearchBar";
 
 const Navbar = () => {
