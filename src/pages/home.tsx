@@ -3,11 +3,8 @@ import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { CreatePost, Post, Spinner } from "~/components";
 import { api } from "~/utils/api";
-
-import CreatePost from "~/components/CreatePost";
-import Post from "~/components/Post";
-import Spinner from "~/components/Spinner";
 
 const Home = () => {
     const user = useUser();

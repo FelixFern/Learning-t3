@@ -1,27 +1,20 @@
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { api } from "~/utils/api";
+import React from "react";
+import { useCreatePost } from "./useCreatePost";
 
 const CreatePost = () => {
     const { user } = useUser();
-    const ctx = api.useContext();
+    const {
+        handleCreatePost,
+        isPosting,
+        showButton,
+        setShowButton,
+        content,
+        setContent,
+    } = useCreatePost();
     const router = useRouter();
-    const [content, setContent] = useState<string>("");
-    const [showButton, setShowButton] = useState<boolean>(false);
-
-    const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
-        onSuccess: () => {
-            setContent("");
-            void ctx.posts.getAllPosts.invalidate();
-        },
-    });
-
-    const handleCreatePost = (e: React.SyntheticEvent<EventTarget>) => {
-        e.preventDefault();
-        mutate({ content: content });
-    };
 
     if (!user) return null;
 

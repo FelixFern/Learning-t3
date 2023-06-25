@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { BiPaperPlane, BiLogOut, BiHome } from "react-icons/bi";
-import UserSearchBar from "./UserSearchBar/UserSearchBar";
+import UserSearchBar from "../UserSearchBar/UserSearchBar";
 
 const Navbar = () => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false);

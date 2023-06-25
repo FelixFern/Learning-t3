@@ -6,7 +6,7 @@ import { DM_Sans } from "next/font/google";
 
 import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import LayoutContainer from "~/components/LayoutContainer";
+import { LayoutContainer } from "~/components";
 
 const dm_sans = DM_Sans({
     weight: ["400", "500", "700"],

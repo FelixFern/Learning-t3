@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { type ReactNode } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar/Navbar";
 
 const LayoutContainer = ({ children }: { children: ReactNode }) => {
     const router = useRouter();

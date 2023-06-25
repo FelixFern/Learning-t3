@@ -2,10 +2,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { Spinner, UserCard, ViewSwitcher } from "~/components";
 import { api } from "~/utils/api";
-import Spinner from "~/components/Spinner";
-import ViewSwitcher from "~/components/Profile/ViewSwitcher";
-import UserCard from "~/components/Profile/UserCard";
 
 const Folding = () => {
     const router = useRouter();

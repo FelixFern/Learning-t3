@@ -2,9 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiArrowBack } from "react-icons/bi";
-import UserCard from "~/components/Profile/UserCard";
-import ViewSwitcher from "~/components/Profile/ViewSwitcher";
-import Spinner from "~/components/Spinner";
+import { Spinner, UserCard, ViewSwitcher } from "~/components";
 import { api } from "~/utils/api";
 
 const Origami = () => {

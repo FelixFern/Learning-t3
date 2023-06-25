@@ -3,8 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Post from "~/components/Post";
-import Spinner from "~/components/Spinner";
+import { Post, Spinner } from "~/components";
 import { api } from "~/utils/api";
 
 const Profile = () => {
@@ -15,7 +14,6 @@ const Profile = () => {
 
     const [isFollowing, setIsFollowing] = useState(false);
 
-    // TRPC Query
     const { data: profileData } = api.profile.getProfileByUsername.useQuery({
         username: slug?.toString() ?? "",
     });

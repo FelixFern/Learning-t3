@@ -2,10 +2,9 @@ import { useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
 import { BiPencil } from "react-icons/bi";
-import Spinner from "~/components/Spinner";
 import { useRouter } from "next/router";
+import { Spinner } from "~/components";
 
 const EditProfile = () => {
     const user = useUser();
